@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  name         String
+  avatarUrl    String?   @map("avatar_url")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  projects Project[]
+  pledges  Pledge[]
+
+  @@map("users")
+}
+
+model Project {
+  id           String    @id @default(cuid())
+  creatorId    String    @map("creator_id")
+  title        String
+  description  String
+  goalAmount   Int       @map("goal_amount")
+  raisedAmount Int       @default(0) @map("raised_amount")
+  deadline     DateTime
+  status       String    @default("active")
+  category     String
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  creator  User      @relation(fields: [creatorId], references: [id])
+  pledges  Pledge[]
+  rewards  Reward[]
+
+  @@map("projects")
+}
+
+model Pledge {
+  id                    String   @id @default(cuid())
+  backerId              String   @map("backer_id")
+  projectId             String   @map("project_id")
+  amount                Int
+  stripePaymentIntentId String   @unique @map("stripe_payment_intent_id")
+  status                String   @default("pending")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  backer  User    @relation(fields: [backerId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@map("pledges")
+}
+
+model Reward {
+  id               String  @id @default(cuid())
+  projectId        String  @map("project_id")
+  title            String
+  description      String
+  minPledgeAmount  Int     @map("min_pledge_amount")
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@map("rewards")
+}
+
+model AgentTenant {
+  id         String   @id @default(cuid())
+  name       String
+  apiKeyHash String   @unique @map("api_key_hash")
+  configJson Json     @default("{}") @map("config_json")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("agent_tenants")
+}
