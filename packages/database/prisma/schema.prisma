@@ -8,17 +8,21 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  email        String    @unique
-  passwordHash String    @map("password_hash")
-  name         String
-  avatarUrl    String?   @map("avatar_url")
-  createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime  @updatedAt @map("updated_at")
+  id              String   @id @default(cuid())
+  email           String   @unique
+  passwordHash    String?  @map("password_hash")
+  name            String
+  avatarUrl       String?  @map("avatar_url")
+  emailVerified   Boolean  @default(false) @map("email_verified")
+  oauthProvider   String?  @map("oauth_provider")
+  oauthProviderId String?  @map("oauth_provider_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   projects Project[]
   pledges  Pledge[]
 
+  @@unique([oauthProvider, oauthProviderId])
   @@map("users")
 }
 
