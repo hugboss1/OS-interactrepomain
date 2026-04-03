@@ -74,6 +74,21 @@ model Reward {
   @@map("rewards")
 }
 
+model WaitlistEntry {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  referralCode   String   @unique @map("referral_code")
+  referralCount  Int      @default(0) @map("referral_count")
+  referredByCode String?  @map("referred_by_code")
+  tier           String   @default("standard")
+  position       Int?
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("waitlist")
+}
+
 model AgentTenant {
   id         String   @id @default(cuid())
   name       String
