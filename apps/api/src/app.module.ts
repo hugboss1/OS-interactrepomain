@@ -6,6 +6,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { PledgesModule } from './pledges/pledges.module';
 import { PaymentsModule } from './payments/payments.module';
 import { WaitlistModule } from './waitlist/waitlist.module';
+import { ChatbotModule } from './chatbot/chatbot.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { WaitlistModule } from './waitlist/waitlist.module';
     PledgesModule,
     PaymentsModule,
     WaitlistModule,
+    ChatbotModule,
   ],
 })
 export class AppModule {}
