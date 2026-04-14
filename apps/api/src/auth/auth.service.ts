@@ -7,10 +7,14 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { PrismaClient } from '@os-interact/database';
 import { UsersService } from '../users/users.service';
 import { MailerService } from './mailer.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+
+const prisma = new PrismaClient();
+const REFERRAL_GENPOINTS_REWARD = 50;
 
 @Injectable()
 export class AuthService {
@@ -82,6 +86,7 @@ export class AuthService {
         throw new BadRequestException('Invalid verification token');
       }
       await this.usersService.markEmailVerified(payload.sub);
+      await this.creditReferral(payload.email);
       return { message: 'Email verified successfully' };
     } catch (e) {
       if (e instanceof BadRequestException) throw e;
@@ -97,6 +102,35 @@ export class AuthService {
     const token = this.issueVerificationToken(user.id, user.email);
     await this.mailer.sendVerificationEmail(user.email, token);
     return { message: 'If that email exists and is unverified, a new link has been sent.' };
+  }
+
+  private async creditReferral(email: string) {
+    const entry = await prisma.waitlistEntry.findUnique({
+      where: { email },
+      select: { referredByCode: true },
+    });
+    if (!entry?.referredByCode) return;
+
+    const referrer = await prisma.waitlistEntry.findUnique({
+      where: { referralCode: entry.referredByCode },
+      select: { email: true },
+    });
+    if (!referrer) return;
+
+    await prisma.$transaction([
+      prisma.waitlistEntry.update({
+        where: { referralCode: entry.referredByCode },
+        data: { referralCount: { increment: 1 } },
+      }),
+      prisma.genPointsLedger.create({
+        data: {
+          email: referrer.email,
+          amount: REFERRAL_GENPOINTS_REWARD,
+          reason: 'referral',
+          metadata: { referredEmail: email },
+        },
+      }),
+    ]);
   }
 
   private issueVerificationToken(userId: string, email: string) {

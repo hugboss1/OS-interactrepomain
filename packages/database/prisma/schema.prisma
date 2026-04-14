@@ -89,6 +89,18 @@ model WaitlistEntry {
   @@map("waitlist")
 }
 
+model GenPointsLedger {
+  id        String   @id @default(cuid())
+  email     String
+  amount    Int
+  reason    String
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email])
+  @@map("genpoints_ledger")
+}
+
 model AgentTenant {
   id         String   @id @default(cuid())
   name       String

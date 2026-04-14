@@ -42,16 +42,8 @@ export class WaitlistService {
       },
     });
 
-    // Increment referrer's count atomically — this is the bug fix:
-    // We use Prisma's { increment: 1 } which generates
-    // UPDATE waitlist SET referral_count = referral_count + 1
-    // instead of overwriting with the new user's referral_count (0).
-    if (dto.referralCode) {
-      await prisma.waitlistEntry.update({
-        where: { referralCode: dto.referralCode },
-        data: { referralCount: { increment: 1 } },
-      });
-    }
+    // referral_count is now incremented on email verification (auth.service.ts)
+    // to prevent gaming with unconfirmed emails
 
     return {
       position: entry.position,
