@@ -23,22 +23,30 @@ export function tierUpgradeTemplate(opts: {
 
   const subject =
     locale === 'fr'
-      ? `Niveau supérieur : ${tierLabel(newTier)}!`
-      : `Tier upgrade: ${tierLabel(newTier)}!`;
+      ? `Vous passez ${tierLabel(newTier)} — accès exclusif débloqué !`
+      : `You're now ${tierLabel(newTier)} — exclusive access unlocked!`;
 
   const body =
     locale === 'fr'
-      ? `<h2 style="margin:0 0 16px;color:#18181b;">${greeting}</h2>
-         <p style="color:#3f3f46;line-height:1.6;">Grâce à vos <strong>${referralCount} parrainages</strong>, votre niveau est passé de <strong>${tierLabel(oldTier)}</strong> à <strong>${tierLabel(newTier)}</strong>.</p>
-         <p style="color:#3f3f46;line-height:1.6;">Vous bénéficiez maintenant d'avantages exclusifs pour votre nouveau niveau.</p>
+      ? `<h2 style="margin:0 0 16px;color:#18181b;">${greeting} Vous avez atteint le niveau ${tierLabel(newTier)}.</h2>
+         <p style="color:#3f3f46;line-height:1.6;">Grâce à vos <strong>${referralCount} parrainages</strong>, vous passez du niveau <strong>${tierLabel(oldTier)}</strong> au niveau <strong>${tierLabel(newTier)}</strong>. C'est mérité.</p>
+         <p style="margin:20px 0;padding:16px;background:#f0f0ff;border-left:4px solid #6366f1;border-radius:4px;">
+           <span style="font-size:18px;font-weight:bold;color:#6366f1;">🏆 Niveau ${tierLabel(newTier)} activé</span><br/>
+           <span style="color:#3f3f46;font-size:13px;margin-top:4px;display:block;">Des avantages exclusifs vous attendent sur votre tableau de bord.</span>
+         </p>
+         <p style="color:#3f3f46;line-height:1.6;">Continuez à inviter votre réseau — chaque parrainage vous rapproche du prochain niveau et de récompenses encore plus importantes.</p>
          <p style="margin:24px 0;">
-           <a href="${frontendUrl}" style="display:inline-block;padding:12px 24px;background:#6366f1;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;">Découvrir mes avantages</a>
+           <a href="${frontendUrl}" style="display:inline-block;padding:12px 28px;background:#6366f1;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;font-size:15px;">Découvrir mes avantages →</a>
          </p>`
-      : `<h2 style="margin:0 0 16px;color:#18181b;">${greeting}</h2>
-         <p style="color:#3f3f46;line-height:1.6;">Thanks to your <strong>${referralCount} referrals</strong>, your tier has been upgraded from <strong>${tierLabel(oldTier)}</strong> to <strong>${tierLabel(newTier)}</strong>.</p>
-         <p style="color:#3f3f46;line-height:1.6;">You now have access to exclusive benefits for your new tier.</p>
+      : `<h2 style="margin:0 0 16px;color:#18181b;">${greeting} You've reached ${tierLabel(newTier)} tier.</h2>
+         <p style="color:#3f3f46;line-height:1.6;">With <strong>${referralCount} referrals</strong>, you've climbed from <strong>${tierLabel(oldTier)}</strong> to <strong>${tierLabel(newTier)}</strong>. You've earned it.</p>
+         <p style="margin:20px 0;padding:16px;background:#f0f0ff;border-left:4px solid #6366f1;border-radius:4px;">
+           <span style="font-size:18px;font-weight:bold;color:#6366f1;">🏆 ${tierLabel(newTier)} tier activated</span><br/>
+           <span style="color:#3f3f46;font-size:13px;margin-top:4px;display:block;">Exclusive benefits are waiting for you on your dashboard.</span>
+         </p>
+         <p style="color:#3f3f46;line-height:1.6;">Keep inviting your network — every referral brings you closer to the next tier and even greater rewards.</p>
          <p style="margin:24px 0;">
-           <a href="${frontendUrl}" style="display:inline-block;padding:12px 24px;background:#6366f1;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;">View My Benefits</a>
+           <a href="${frontendUrl}" style="display:inline-block;padding:12px 28px;background:#6366f1;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;font-size:15px;">View my benefits →</a>
          </p>`;
 
   return {
