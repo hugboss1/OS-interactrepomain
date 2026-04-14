@@ -1,5 +1,5 @@
 import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, ApiHideProperty } from '@nestjs/swagger';
 
 export class JoinWaitlistDto {
   @ApiProperty({ example: 'user@example.com' })
@@ -17,4 +17,15 @@ export class JoinWaitlistDto {
   @IsString()
   @MaxLength(20)
   referralCode?: string;
+
+  @ApiPropertyOptional({ description: 'Cloudflare Turnstile token' })
+  @IsOptional()
+  @IsString()
+  cfTurnstileToken?: string;
+
+  @ApiHideProperty()
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  website?: string; // Honeypot — hidden field, bots fill it, humans don't
 }
