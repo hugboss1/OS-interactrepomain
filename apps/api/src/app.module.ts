@@ -7,6 +7,7 @@ import { PledgesModule } from './pledges/pledges.module';
 import { PaymentsModule } from './payments/payments.module';
 import { WaitlistModule } from './waitlist/waitlist.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { GenpointsModule } from './genpoints/genpoints.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
     PaymentsModule,
     WaitlistModule,
     ChatbotModule,
+    GenpointsModule,
   ],
 })
 export class AppModule {}
