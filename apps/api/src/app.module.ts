@@ -7,10 +7,12 @@ import { PledgesModule } from './pledges/pledges.module';
 import { PaymentsModule } from './payments/payments.module';
 import { WaitlistModule } from './waitlist/waitlist.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { EmailsModule } from './emails/emails.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    EmailsModule,
     AuthModule,
     UsersModule,
     ProjectsModule,
