@@ -8,6 +8,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { WaitlistModule } from './waitlist/waitlist.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 import { EmailsModule } from './emails/emails.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { EmailsModule } from './emails/emails.module';
     PaymentsModule,
     WaitlistModule,
     ChatbotModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

@@ -14,6 +14,7 @@ model User {
   name            String
   avatarUrl       String?  @map("avatar_url")
   emailVerified   Boolean  @default(false) @map("email_verified")
+  role            String   @default("user")
   oauthProvider   String?  @map("oauth_provider")
   oauthProviderId String?  @map("oauth_provider_id")
   createdAt       DateTime @default(now()) @map("created_at")
@@ -82,6 +83,7 @@ model WaitlistEntry {
   referralCount  Int      @default(0) @map("referral_count")
   referredByCode String?  @map("referred_by_code")
   tier           String   @default("standard")
+  status         String   @default("active")
   position       Int?
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
